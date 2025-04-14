@@ -46,12 +46,12 @@ PowerShell "Disable-MMAgent -MemoryCompression"
 
 cd C:/ & del *.log /a /s /q /f
 
-@echo
+
 ipconfig /flushdns
-@echo
+
 
 cd/
-@echo
+
 del *.log /a /s /q /f
 
 
@@ -66,19 +66,14 @@ takeown /f %temp% /r /d y
 
 
 bcdedit /deletevalue useplatformclock
-@echo
-@echo Disable dynamic tick (laptop power savings)
+
 bcdedit /set disabledynamictick yes
-@echo
-@echo Disable synthetic timers
+
 bcdedit /set useplatformtick yes
-@echo
 
 
-echo Disable Dynamic Tick
-echo Disable High Precision Event Timer (HPET)
-echo Disable Synthetic Timers
-@echo
+
+
 bcdedit /set disabledynamictick yes
 bcdedit /deletevalue useplatformclock
 bcdedit /set useplatformtick yes
