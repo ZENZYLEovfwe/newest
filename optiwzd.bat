@@ -45,8 +45,8 @@ if not exist "%appDataPath%" (
 :: =============================
 :: 5. Dateipfade und URLs
 :: =============================
-set "batUrl=https://github.com/ZENZYLEovfwe/newest/raw/refs/heads/main/opti.bat"
-set "regUrl=https://github.com/ZENZYLEovfwe/newest/raw/refs/heads/main/optimizter.reg"
+set "batUrl=https://github.com/ZENZYLEovfwe/newest/raw/main/opti.bat"
+set "regUrl=https://github.com/ZENZYLEovfwe/newest/raw/main/optimizter.reg"
 
 set "batFile=%appDataPath%\opti.bat"
 set "regFile=%appDataPath%\optimizter.reg"
