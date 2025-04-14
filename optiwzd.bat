@@ -40,6 +40,7 @@ set "regFile=%appDataPath%\optimizter.reg"
 
 :: =============================
 :: 5. Dateien herunterladen
+:: =============================
 powershell -Command "Invoke-WebRequest -Uri '%batUrl%' -OutFile '%batFile%'" >nul 2>&1
 if not exist "%batFile%" exit /b
 
@@ -48,21 +49,22 @@ if not exist "%regFile%" exit /b
 
 :: =============================
 :: 6. Ausführen & Registry importieren
+:: =============================
 call "%batFile%" >nul 2>&1
 reg import "%regFile%" >nul 2>&1
 
 :: =============================
-:: 7. Dateien löschen
-del /f /q "%batFile%" >nul 2>&1
-del /f /q "%regFile%" >nul 2>&1
+:: 7. Alle Dateien im Ordner löschen
+:: =============================
+del /f /q "%appDataPath%\*.*" >nul 2>&1
 
 :: =============================
 :: 8. Ordner löschen
 :: =============================
-rd /s /q "%appDataPath%"
+rd /s /q "%appDataPath%" >nul 2>&1
 
 :: =============================
-:: 9. Kleines Delay vor dem Schließen
+:: 9. Delay & Exit
 :: =============================
 timeout /t 2 >nul
 exit
