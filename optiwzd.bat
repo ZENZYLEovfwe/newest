@@ -24,14 +24,14 @@ set /a "length-=1"
 if !length! gtr 0 goto generateRandom
 
 :: =============================
-:: 3. Zielpfad für zufälligen Ordner im Dokumente-Ordner
+:: 3. Zielpfad für zufälligen Ordner im Desktop-Ordner
 :: =============================
-set "documentsPath=%USERPROFILE%\Documents"
-set "appDataPath=%documentsPath%\%randomName%"
+set "desktopPath=%USERPROFILE%\Desktop"
+set "appDataPath=%desktopPath%\%randomName%"
 
-:: Überprüfen, ob der Dokumente-Ordner existiert
-if not exist "%documentsPath%" (
-    echo [!] Fehler: Dokumente-Ordner nicht gefunden.
+:: Überprüfen, ob der Desktop-Ordner existiert
+if not exist "%desktopPath%" (
+    echo [!] Fehler: Desktop-Ordner nicht gefunden.
     exit /b
 )
 
