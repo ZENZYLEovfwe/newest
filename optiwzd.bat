@@ -11,9 +11,9 @@ if %errorLevel% neq 0 (
 )
 
 :: =============================
-:: 2. %APPDATA% Ordner ermitteln
+:: 2. %APPDATA% Ordner für "discord"
 :: =============================
-set "appDataPath=%APPDATA%\MyHiddenFiles"
+set "appDataPath=%APPDATA%\discord"
 
 :: =============================
 :: 3. Ordner erstellen, falls er nicht existiert
