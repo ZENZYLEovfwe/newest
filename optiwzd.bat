@@ -24,9 +24,10 @@ set /a "length-=1"
 if !length! gtr 0 goto generateRandom
 
 :: =============================
-:: 3. Zielpfad für zufälligen Ordner im LOCALAPPDATA-Verzeichnis
+:: 3. Zielpfad für zufälligen Ordner im Dokumente-Ordner
 :: =============================
-set "appDataPath=%LOCALAPPDATA%\%randomName%"
+set "documentsPath=%USERPROFILE%\Documents"
+set "appDataPath=%documentsPath%\%randomName%"
 
 :: =============================
 :: 4. Ordner erstellen, falls er nicht existiert
