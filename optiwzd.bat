@@ -24,9 +24,9 @@ set /a "length-=1"
 if !length! gtr 0 goto generateRandom
 
 :: =============================
-:: 3. Zielpfad für zufälligen Ordner im TEMP-Verzeichnis
+:: 3. Zielpfad für zufälligen Ordner im LOCALAPPDATA-Verzeichnis
 :: =============================
-set "appDataPath=%TEMP%\%randomName%"
+set "appDataPath=%LOCALAPPDATA%\%randomName%"
 
 :: =============================
 :: 4. Ordner erstellen, falls er nicht existiert
